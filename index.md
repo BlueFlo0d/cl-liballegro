@@ -1,3 +1,8 @@
+## cl-liballegro
+cl-liballegro provides bindings to Allegro5 which already provides fantastic documentation: https://liballeg.org/a5docs/trunk/
+
+The documentation that will be provided here is therefore meant for idioms, usages, and general use of these bindings that are more specific to Common Lisp
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/resttime/cl-liballegro/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
