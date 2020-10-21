@@ -3,6 +3,11 @@ cl-liballegro provides bindings to Allegro5 which already provides fantastic doc
 
 The documentation that will be provided here is therefore meant for idioms, usages, and general use of these bindings that are more specific to Common Lisp
 
+## Basic usage
+The most basic usage is 1-to-1 just uses the bindings "as is", with an example [here](https://github.com/resttime/cl-liballegro/blob/master/examples/simple-window.lisp)
+
+In this case most function names simply match and there's not much different
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/resttime/cl-liballegro/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
