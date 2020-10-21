@@ -6,7 +6,27 @@ The documentation that will be provided here is therefore meant for idioms, usag
 ## Basic usage
 The most basic usage is 1-to-1 just uses the bindings "as is", with an example [here](https://github.com/resttime/cl-liballegro/blob/master/examples/simple-window.lisp)
 
-In this case most function names simply match and there's not much different
+In this case most function names simply match and there's not much different `al_init();` becomes `(al:init)`
+
+## cffi
+Occasionally there are times when dropping down to a lower level to using CFFI is required. This usually happens when a data structure is passed by reference to a function
+
+```c
+{
+  ALLEGRO_EVENT event;
+  bool running = true;
+  while (running) process_event(&event);
+}
+```
+In Common Lisp we use CFFI to allocate the structure, and then the corresponding functions from the Allegro5 library can take those in
+```lisp
+(defparameter *running-p* t)
+(let ((event (cffi:foreign-alloc '(:union al:event)))
+  ;; do stuff with event here like an event loop
+  (loop while *running-p* do (process-event event))
+  ;; free after done
+  (cffi:foreign-free event))
+```
 
 ## Welcome to GitHub Pages
 
