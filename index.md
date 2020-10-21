@@ -40,7 +40,7 @@ In Common Lisp we use CFFI to allocate the structure for the corresponding Aller
 At times when someting goes wrong the debugger pops up and a new window is created without the previous one being destroyed. This is due to how debugger restarts execution. One of the ways to handle this is wrapping things in an `unwind-protect` or using the condition handlers in `Common Lisp` to handle errors in such a way that restarts do not re execute certain s-exps to create a new display.
 
 ## Lispy Interface
-A lispy interface is included with cl-liballegro which provides a full game loop with a fixed timestep and Entity-Component-System (ECS) tacked on the CLOS.
+An optional lispy interface is included with cl-liballegro which provides a full game loop with a fixed timestep and Entity-Component-System (ECS) throug the CLOS.
 
 1. Define system
 2. Define handlers
