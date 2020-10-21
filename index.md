@@ -6,10 +6,18 @@ The documentation that will be provided here is therefore meant for idioms, usag
 ## Basic usage
 The most basic usage is 1-to-1 just uses the bindings "as is", with an example [here](https://github.com/resttime/cl-liballegro/blob/master/examples/simple-window.lisp)
 
-In this case most function names simply match and there's not much different `al_init();` becomes `(al:init)`
+Names have been changed to use a more lispy convention in which `_` is converted to `-`
+
+In this case most function names simply match and there's not much different `al_flip_display(display);` becomes `(al:flip-display display)`
+
+However types, constants, and structures have been shortened for convenience. 
+There's no exact rules for it, but usually any `ALLEGRO_*` is truncated.
+Any `al_*` is truncated because the `Common Lisp` packages handle the namespace.
+
+An example is `ALLEGRO_KEY_K` is `:k` which may seem drastic at first, but using keywords over constants tends to be convenient in practice becausse CFFI takes care of translating the value to the keyword and vice-versa. For example, a keyboard function in `C` would return a value but the corresponding `Common Lisp` can return a keyword.
 
 ## cffi
-Occasionally there are times when dropping down to a lower level to using CFFI is required. This usually happens when a data structure is passed by reference to a function
+Occasionally there are times when dropping down to a lower level to using CFFI is required. This happens when it's necesssary to pass a non-opaque data structure by reference.
 
 ```c
 {
@@ -18,13 +26,12 @@ Occasionally there are times when dropping down to a lower level to using CFFI i
   while (running) process_event(&event);
 }
 ```
-In Common Lisp we use CFFI to allocate the structure, and then the corresponding functions from the Allegro5 library can take those in. Remember to free up the memory!
+
+In Common Lisp we use CFFI to allocate the structure for the corresponding Allero5 functions. Remember to free up the memory!
 ```lisp
 (defparameter *running-p* t)
 (let ((event (cffi:foreign-alloc '(:union al:event)))
-  ;; do stuff with event here like an event loop
   (loop while *running-p* do (process-event event))
-  ;; free after done
   (cffi:foreign-free event))
 ```
 
