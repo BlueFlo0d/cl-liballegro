@@ -6,6 +6,8 @@ The documentation that will be provided here is therefore meant for idioms, usag
 ## Basic usage
 The most basic usage is 1-to-1 just uses the bindings "as is", with an example [here](https://github.com/resttime/cl-liballegro/blob/master/examples/simple-window.lisp)
 
+![simple window](https://user-images.githubusercontent.com/2598904/96662425-f3c4cf00-1313-11eb-9e59-807e27697c20.png)
+
 Names have been changed to use a more lispy convention in which `_` is converted to `-`
 
 In this case most function names simply match and there's not much different `al_flip_display(display);` becomes `(al:flip-display display)`
