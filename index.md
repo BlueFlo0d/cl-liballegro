@@ -18,7 +18,7 @@ Occasionally there are times when dropping down to a lower level to using CFFI i
   while (running) process_event(&event);
 }
 ```
-In Common Lisp we use CFFI to allocate the structure, and then the corresponding functions from the Allegro5 library can take those in
+In Common Lisp we use CFFI to allocate the structure, and then the corresponding functions from the Allegro5 library can take those in. Remember to free up the memory!
 ```lisp
 (defparameter *running-p* t)
 (let ((event (cffi:foreign-alloc '(:union al:event)))
