@@ -16,7 +16,9 @@ However types, constants, and structures have been shortened for convenience.
 There's no exact rules for it, but usually any `ALLEGRO_*` is truncated.
 Any `al_*` is truncated because the `Common Lisp` packages handle the namespace.
 
-An example is `ALLEGRO_KEY_K` is `:k` which may seem drastic at first, but using keywords over constants tends to be convenient in practice becausse CFFI takes care of translating the value to the keyword and vice-versa. For example, a keyboard function in `C` would return a value but the corresponding `Common Lisp` can return a keyword.
+Another change is that certain constants have been changed to keyword. An example is `ALLEGRO_KEY_K` is `:k`.
+Using keywords over constants tends to be convenient in practice because CFFI takes care of translating the value to the keyword and vice-versa. 
+For example, a keyboard function in `C` would return a value but in `Common Lisp` can return a keyword.
 
 ## cffi
 Occasionally there are times when dropping down to a lower level to using CFFI is required. This happens when it's necesssary to pass a non-opaque data structure by reference.
@@ -37,10 +39,13 @@ In Common Lisp we use CFFI to allocate the structure for the corresponding Aller
   (cffi:foreign-free event))
 ```
 ## Orphaned Windows / Cleaning up Windows
-At times when someting goes wrong the debugger pops up and a new window is created without the previous one being destroyed. This is due to how debugger restarts execution. One of the ways to handle this is wrapping things in an `unwind-protect` or using the condition handlers in `Common Lisp` to handle errors in such a way that restarts do not re execute certain s-exps to create a new display.
+At times when someting goes wrong the debugger pops up and a new window is created without the previous one being destroyed. 
+This is due to how debugger restarts execution. 
+One of the ways to handle this is wrapping things in an `unwind-protect` or using the condition handlers in `Common Lisp`. 
+Errors should be handled in such a way that restarts do not re execute certain s-exps to create a new display.
 
 ## Lispy Interface
-An optional lispy interface is included with cl-liballegro which provides a full game loop with a fixed timestep and Entity-Component-System (ECS) throug the CLOS.
+An optional lispy interface is included with cl-liballegro which provides a full game loop with a fixed timestep and Entity-Component-System (ECS) through the CLOS.
 
 1. Define system
 2. Define handlers
