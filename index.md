@@ -34,6 +34,8 @@ In Common Lisp we use CFFI to allocate the structure for the corresponding Aller
   (loop while *running-p* do (process-event event))
   (cffi:foreign-free event))
 ```
+## Orphaned Windows / Cleaning up Windows
+At times when someting goes wrong the debugger pops up and a new window is created without the previous one being destroyed. This is due to how debugger restarts execution. One of the ways to handle this is wrapping things in an `unwind-protect` or using the condition handlers in `Common Lisp` to handle errors in such a way that restarts do not re execute certain s-exps to create a new display.
 
 ## Welcome to GitHub Pages
 
