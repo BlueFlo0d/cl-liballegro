@@ -12,12 +12,12 @@ Names have been changed to use a more lispy convention in which `_` is converted
 
 In this case most function names simply match and there's not much different `al_flip_display(display);` becomes `(al:flip-display display)`
 
-However types, constants, and structures have been shortened for convenience. 
+However types, constants, and structures have been shortened for convenience.
 There's no exact rules for it, but usually any `ALLEGRO_*` is truncated.
 Any `al_*` is truncated because the `Common Lisp` packages handle the namespace.
 
 Another change is that certain constants have been changed to keyword. An example is `ALLEGRO_KEY_K` is `:k`.
-Using keywords over constants tends to be convenient in practice because CFFI takes care of translating the value to the keyword and vice-versa. 
+Using keywords over constants tends to be convenient in practice because CFFI takes care of translating the value to the keyword and vice-versa.
 For example, a keyboard function in `C` would return a value but in `Common Lisp` can return a keyword.
 
 ## cffi
@@ -39,9 +39,9 @@ In Common Lisp we use CFFI to allocate the structure for the corresponding Aller
   (cffi:foreign-free event))
 ```
 ## Orphaned Windows / Cleaning up Windows
-At times when someting goes wrong the debugger pops up and a new window is created without the previous one being destroyed. 
-This is due to how debugger restarts execution. 
-One of the ways to handle this is wrapping things in an `unwind-protect` or using the condition handlers in `Common Lisp`. 
+At times when someting goes wrong the debugger pops up and a new window is created without the previous one being destroyed.
+This is due to how debugger restarts execution.
+One of the ways to handle this is wrapping things in an `unwind-protect` or using the condition handlers in `Common Lisp`.
 Errors should be handled in such a way that restarts do not re execute certain s-exps to create a new display.
 
 ## Lispy Interface
@@ -50,3 +50,41 @@ An optional lispy interface is included with cl-liballegro which provides a full
 1. Define system
 2. Define handlers
 3. Run system
+
+## Mac OSX Gotchas
+Running on OSX tends to behave oddly with threads because it requires GUI related code to run in the main thread (affects programs outside of Common Lisp too).  The Allegro 5 library has a solution with [al_run_main](https://liballeg.org/a5docs/trunk/misc.html#al_run_main).
+
+```lisp
+;; First define a callback
+(cffi:defcallback my-main :void ()
+  ;; Code goes in here
+  (function-with-gui-code))
+
+;; Second execute by passing the callback to AL:RUN-MAIN
+(al:run-main 0 (cffi:null-pointer) (cffi:callback my-main))
+```
+
+## Ignoring Floating Point Calculation Errors/Traps
+Common Lisp implementations tend to throw floating point calculation errors such as `FLOATING-POINT-OVERFLOW` and `FLOATING-POINT-INVALID-OPERATION` by default (called traps) to be explicitly handled rather than ignored.  These can be valid but sometimes such errors as get despite valid code being called through the foreign function interface (FFI).
+
+In this case it should be safe to ignore using implementation specific or the [float-featues](https://github.com/Shinmera/float-features/) portability library:
+
+```lisp
+;; SBCL
+;; Sets traps globally
+(sb-int:set-floating-point-modes :traps (:invalid :inexact :overflow))
+
+;; SBCL
+;; Code wrapped in the macro ignores floating point errors in the list
+(sb-int:with-float-traps-masked (:invalid :inexact :overflow)
+  (function-with-floating-point-errors))
+
+;; float-features (portability library)
+;; Code wrapped in the macro ignores floating point errors in the list
+(float-features:with-float-traps-masked (:divide-by-zero
+                                         :invalid
+                                         :inexact
+                                         :overflow
+                                         :underflow)
+  (function-with-floating-point-errors))
+```
