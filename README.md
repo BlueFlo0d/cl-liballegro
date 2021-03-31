@@ -5,6 +5,8 @@ cl-liballegro provides bindings to Allegro5 which already provides [fantastic do
 
 The documentation that will be provided here is therefore meant for idioms, usages, and general use of these bindings that are more specific to Common Lisp
 
+The rendered HTML can be found here: https://resttime.github.io/cl-liballegro/
+
 * Table of Contents
 {:toc}
 
