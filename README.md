@@ -59,7 +59,7 @@ An optional lispy interface is included with cl-liballegro which provides a full
 3. Run system
 
 ## Mac OSX Gotchas
-Running on OSX tends to behave oddly with threads because it requires GUI related code to run in the main thread (affects programs outside of Common Lisp too).  The Allegro 5 library has a solution with [al_run_main](https://liballeg.org/a5docs/trunk/misc.html#al_run_main).
+Running on OSX tends to behave oddly with threads because it requires GUI related code to run in the main thread (affects programs outside of Common Lisp too).  The Allegro 5 library has a solution with [al_run_main](https://liballeg.org/a5docs/trunk/misc.html#al_run_main).  Define a callback with [https://common-lisp.net/project/cffi/manual/html_node/defcallback.html](defcallback) and pass it to `AL:RUN-MAIN`.
 
 ```lisp
 ;; First define a callback
